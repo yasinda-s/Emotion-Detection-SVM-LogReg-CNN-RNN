@@ -1,5 +1,7 @@
 import pickle
 import nltk
+import json
+import random
 from nltk.corpus import stopwords
 from textblob import Word
 
@@ -24,6 +26,7 @@ class Chatbot:
         self.emotionsSVMLOGREG = ["anger", "happy", "love", "neutral", "sad"]
         self.emotionsCNN = ["neutral", "happy", "sad", "love", "anger"]
         self.emotion_gauge = {"anger": 0, "happy": 0, "love": 0, "neutral": 0, "sad": 0}
+        self.responsesJSON = json.load(open('responses.json', encoding="utf8"))
 
         if option == "SVM":
             with open('SVMCountVectorizer', 'rb') as SVMFiles:
@@ -101,18 +104,21 @@ class Chatbot:
         emotion_felt = self.emotionsCNN[indexOfMaxEmotion]
         return emotion_felt
 
-    @staticmethod
-    def getReply(emotion_felt):
+    def getReply(self, emotion_felt):
         if emotion_felt == "anger":
-            reply = "I detect that you are Angry"
+            replyPrefix = "Emotion Detected - Anger (Negative) \n"
         elif emotion_felt == "happy":
-            reply = "I detect that you are Happy"
+            replyPrefix = "Emotion Detected - Happy (Positive) \n"
         elif emotion_felt == "love":
-            reply = "I detect that you are in Love."
+            replyPrefix = "Emotion Detected - Love (Positive) \n"
         elif emotion_felt == "neutral":
-            reply = "I detect that you are feeling normal."
+            replyPrefix = "Emotion Detected - Neutral (Neutral) \n"
         elif emotion_felt == "sad":
-            reply = "I detect that you are Sad"
+            replyPrefix = "Emotion Detected - Sad (Negative) \n"
+        for i in range(5):
+            if self.responsesJSON['responses_outer'][i]['emotion'] == emotion_felt:
+                replySuffix = str(self.responsesJSON['responses_outer'][i]['responses'][random.randrange(0, len(self.responsesJSON['responses_outer'][i]['responses']))])
+        reply = replyPrefix + "Companio: " + replySuffix
         return reply
 
     @staticmethod

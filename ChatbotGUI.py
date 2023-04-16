@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 import Chatbot as chatBot
 
-# Contains all GUI components of the Chatbot Screen
+# Class which handles all GUI components of the chatbot
 class ChatbotGUI:
     def __init__(self, master, option):
         self.master = master
@@ -23,7 +23,8 @@ class ChatbotGUI:
 
         self.chatHistory.config(state=tk.DISABLED)
         self.chatbot = chatBot.Chatbot(option)
-        self.addMessage("Selected option: " + option)
+        self.addMessage("Selected Algorithm: " + option)
+        self.addMessage("------------------------------------------------------")
 
     def sendMessage(self, event=None):
         message = self.inputChatBox.get()
@@ -31,7 +32,7 @@ class ChatbotGUI:
 
         self.addMessage("You: " + message)
         response = self.chatbot.get_response(message)
-        self.addMessage("Chatbot: " + response)
+        self.addMessage("Companio: " + response)
 
     def addMessage(self, message):
         self.chatHistory.config(state=tk.NORMAL)
