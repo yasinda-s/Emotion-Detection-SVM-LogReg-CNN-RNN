@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import scrolledtext
+from datetime import datetime
 import pickle
 import json
 import random
@@ -17,21 +18,16 @@ class OptionSelection:
     def __init__(self, master):
         self.master = master
         master.title("Companio Version 1.0 - Model Selection")
-
         master.configure(bg="#7EA0B7")
         master.geometry("400x400")
-
-        label = tk.Label(master, text="Select which AI Model should \nbe used for Emotion Detection",
-                         font=("Helvetica", 16))
+        
+        label = tk.Label(master, text="Select which AI Model should \nbe used for Emotion Detection",font=("Helvetica", 16))
         label.pack(pady=20)
-        SVMButton = tk.Button(master, text="Support Vector Machine", font=("Helvetica", 12),
-                              command=lambda: self.runChatbot("SVM"))
+        SVMButton = tk.Button(master, text="Support Vector Machine", font=("Helvetica", 12),command=lambda: self.runChatbot("SVM"))
         SVMButton.pack(pady=10)
-        LogRegButton = tk.Button(master, text="Logistic Regression", font=("Helvetica", 12),
-                                 command=lambda: self.runChatbot("LOGREG"))
+        LogRegButton = tk.Button(master, text="Logistic Regression", font=("Helvetica", 12),command=lambda: self.runChatbot("LOGREG"))
         LogRegButton.pack(pady=10)
-        CNNButton = tk.Button(master, text="Convolutional Neural Network", font=("Helvetica", 12),
-                              command=lambda: self.runChatbot("CNN"))
+        CNNButton = tk.Button(master, text="Convolutional Neural Network", font=("Helvetica", 12),command=lambda: self.runChatbot("CNN"))
         CNNButton.pack(pady=10)
 
     def runChatbot(self, option):
@@ -40,45 +36,56 @@ class OptionSelection:
         ChatbotGUI(chatbotWindow, option)
         chatbotWindow.mainloop()
 
-
 # Class which handles all GUI components of the chatbot
 class ChatbotGUI:
     def __init__(self, master, option):
         self.master = master
         master.title("Companio Version 1.0 - Chat Section")
-
-        self.chatHistory = tk.scrolledtext.ScrolledText(master, width=50, height=20, wrap=tk.WORD,
-                                                        font=("Helvetica", 12))
+        
+        self.chat_tags = {
+            "user": {
+                "bg": "#5aa57c",
+                "font": "#000000",
+            },
+            "companio": {
+                "bg": "#a0acc2",
+                "font": "#000000",
+            },
+        }
+        
+        self.chatHistory = tk.scrolledtext.ScrolledText(master, width=50, height=20, wrap=tk.WORD, font=("Helvetica", 12))
         self.chatHistory.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="NSEW")
-
         self.inputChatBox = tk.Entry(master, width=50, font=("Helvetica", 12))
         self.inputChatBox.grid(row=1, column=0, padx=10, pady=10, sticky="EW")
         self.inputChatBox.bind("<Return>", self.sendMessage)
-
         self.sendButton = tk.Button(master, text="Send", font=("Helvetica", 12), command=self.sendMessage, bg="#228CDB")
         self.sendButton.grid(row=1, column=1, padx=10, pady=10, sticky="E")
-
         master.grid_columnconfigure(0, weight=1)
-
         self.chatHistory.config(state=tk.DISABLED)
         self.chatbot = Chatbot(option)
-        self.addMessage("Selected Algorithm: " + option)
-        self.addMessage("------------------------------------------------------")
+        self.addMessage(" Selected Algorithm: " + option)
 
     def sendMessage(self, event=None):
         message = self.inputChatBox.get()
         self.inputChatBox.delete(0, tk.END)
-
-        self.addMessage("\nYou: " + message)
+        self.addBubbleMessage("\n  You (" + datetime.now().strftime("%H:%M:%S") + ") :" + message, "user")
         response = self.chatbot.get_response(message)
-        self.addMessage("\nCompanio: " + response)
+        self.addBubbleMessage("\n  Companio :" + response, "companio")
+        
+    def addBubbleMessage(self, message, tag):
+        self.chatHistory.config(state=tk.NORMAL)
+        self.chatHistory.tag_configure(tag, background=self.chat_tags[tag]["bg"], foreground=self.chat_tags[tag]["font"])
+        bubble_text = f"{message}"
+        bubble_text = f"{bubble_text}\n"
+        self.chatHistory.insert(tk.END, bubble_text, (tag, self.chat_tags[tag]))
+        self.chatHistory.config(state=tk.DISABLED)
+        self.chatHistory.yview(tk.END)
 
     def addMessage(self, message):
         self.chatHistory.config(state=tk.NORMAL)
         self.chatHistory.insert(tk.END, message + "\n")
         self.chatHistory.config(state=tk.DISABLED)
         self.chatHistory.yview(tk.END)
-
 
 # Class which contains all the logic of the chatbot
 class Chatbot:
@@ -179,14 +186,14 @@ class Chatbot:
         elif emotion_felt == "love":
             replyPrefix = "Emotion Detected - Love (Positive)\n"
         elif emotion_felt == "neutral":
-            replyPrefix = "Emotion Detected - Neutral (Neutral)\n"
+            replyPrefix = "Emotion Detected - Neutral\n"
         elif emotion_felt == "sad":
             replyPrefix = "Emotion Detected - Sad (Negative)\n"
         for i in range(5):
             if self.responsesJSON['responses_outer'][i]['emotion'] == emotion_felt:
                 replySuffix = str(self.responsesJSON['responses_outer'][i]['responses'][
                                       random.randrange(0, len(self.responsesJSON['responses_outer'][i]['responses']))])
-        reply = replyPrefix + "Companio: " + replySuffix
+        reply = replyPrefix + "  Companio: " + replySuffix
         return reply
 
     @staticmethod
