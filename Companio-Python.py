@@ -117,7 +117,7 @@ class Chatbot:
         elif option == "CNN":
             with open('tokenizer.pickle', 'rb') as handle:
                 self.tokenizer = pickle.load(handle)
-            self.model = load_model("BESTCNNWeightsNLTP.h5")
+            self.model = load_model("CNNWeights2.0.h5")
 
     def preprocessMessageSVMLOGREG(self, message):
         message = ' '.join([word for word in message.split() if word not in self.stop])
