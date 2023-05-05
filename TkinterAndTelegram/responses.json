@@ -1,0 +1,18 @@
+{"responses_outer": [
+    {"emotion": "neutral",
+    "responses": ["Oh okay", "Hmm", "I see","Is that so?", "Ah, I see", "Interesting"]
+    },
+    {"emotion": "happy",
+    "responses": ["I'm so happy for you!", "I'm so glad to see you happy! It's great to see you in such a positive state of mind.", "Amazing!", "Well that makes me happy to hear.", "So glad to hear that.", "You deserve the joy you feel." , "I'm happy to hear that.", "Remember this moment and how happy you feel. You can always look back on it and feel that joy again.", "This does put a smile on my face", "That amazing to hear.", "Good job!.", "It's wonderful to see you happy. I hope you continue to experience moments like this in the future", "It's amazing to see you this happy. Keep living life to the fullest!", "You are radiating happiness today. I hope this feeling stays with you for a long time."]
+    },
+    {"emotion": "sad",
+     "responses": ["I feel your pain. It's not the end of the world.", "I understand, but you have more to live for.", "It's okay to not be okay. We all go through tough times, and I'm here to support you through this one.", "I can see that you're going through a difficult time. Let's work through this together.", "It's alright to cry a little", "I'm all ears if you want to talk.", "I know it is tough, but this feeling would not last forever.", "I am so proud of you for opening up, I want you to know that you are not alone in this.", "I care for your well being and I'm proud of you for opening up about your feelings.", "Don't lose hope, there is always more in store for you", "You could start by taking a few deep breaths", "Brighter days will come.", "It's not going to be like this forever", "You're stronger than you think.", "Remember that your feelings are valid, and it's okay to take time to process them. I'm here to support you.", "You are important to me, and I want to help you feel better. Let's take it one step at a time and work through this together."]
+    },
+    {"emotion": "love",
+    "responses": ["I'm so happy for you!", "It's nice to know you feel loved.", "Amazing!", "Well that makes me happy to hear", "So glad to hear that!", "You deserve the love you feel.", "Love is a pure feeling, I am glad you feel it right now.", "I am glad you feel this way", "I hope you always feel love for yourself and people around you", "Love is a beautiful feeling."]
+    },
+    {"emotion": "anger",
+    "responses": ["I don't blame you for being angry.", "That's terrible.", "I'm sorry you're upset.", "I would've been angry too if I were you", "Is there anything I can do for you?", "That's so frustrating.", "Things can be rough sometimes, take a few deep breaths", "Don't let it get to you", "I understand how you feel, I would be angry too if I was you.", "I understand your anger, but this feeling does not define who you are "]
+    }
+]
+}
